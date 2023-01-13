@@ -3630,6 +3630,10 @@ static CURLcode ossl_connect_step1(struct Curl_cfilter *cf,
       return CURLE_SSL_CONNECT_ERROR;
   }
 
+#if (OPENSSL_VERSION_MAJOR >= 3)
+  ctx_options |= SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION;
+#endif
+
   SSL_CTX_set_options(backend->ctx, ctx_options);
 
 #ifdef HAS_ALPN
